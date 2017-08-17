@@ -2,15 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
+    public static GameManager Instance = null;
+    public BoardManager BoardScript;
+    private int level = 3;
 
-	// Use this for initialization
-	void Start () {
-		
+	void Awake ()
+	{
+	    if (Instance == null)
+	    {
+	        Instance = this;
+	    } else if (Instance != null) //why is this an else if and not just an else?
+	    {
+	        Destroy(gameObject);
+	    }
+
+        DontDestroyOnLoad(gameObject);
+	    BoardScript = GetComponent<BoardManager>();
+	    InitGame();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    void InitGame()
+    {
+        BoardScript.SetupScene(level);
+    }
 }
