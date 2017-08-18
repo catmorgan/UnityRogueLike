@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Enemy : MovingObject {
     public int PlayerDamage;
+    public AudioClip EnemyAttack1;
+    public AudioClip EnemyAttack2;
 
     private Animator _animator;
     private Transform _target;
@@ -43,6 +45,7 @@ public class Enemy : MovingObject {
         Player hitPlayer = component as Player;
         hitPlayer.LoseFood(PlayerDamage);
         _animator.SetTrigger("enemyAttack");
+        SoundManager.Instance.RandomFx(EnemyAttack1, EnemyAttack2);
     }
 
     protected override void AttemptMove<T>(int xDir, int yDir)
