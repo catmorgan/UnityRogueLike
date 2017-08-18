@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MovingObject
 {
@@ -9,6 +10,7 @@ public class Player : MovingObject
     public int PointsPerFood = 10;
     public int PointsPerSoda = 20;
     public float RestartLevelDelay = 1f;
+    public Text FoodText;
 
     private Animator animator;
     private int _food;
@@ -17,6 +19,7 @@ public class Player : MovingObject
     {
         animator.SetTrigger("playerHit");
         _food -= loss;
+        FoodText.text = "-" + loss + " Food: " + _food;
         CheckIfGameOver();
     }
 
@@ -24,12 +27,14 @@ public class Player : MovingObject
 	{
 	    animator = GetComponent<Animator>();
         _food = GameManager.Instance.PlayerFoodPoints;
+        FoodText.text = "Food: " + _food;
         base.Start();
 	}
 
     protected override void AttemptMove<T>(int xDir, int yDir)
     {
         _food--;
+        FoodText.text = "Food: " + _food;
         base.AttemptMove<T>(xDir, yDir);
 
         RaycastHit2D hit;
@@ -78,10 +83,12 @@ public class Player : MovingObject
             //I feel like checking a string is so fragile, should you not check what type of object you hit? such is if other is Food where Food is a model ?
         {
             _food += PointsPerFood;
+            FoodText.text = "+" + PointsPerFood + " Food: " + _food;
             other.gameObject.SetActive(false);
         } else if (other.tag == "Soda")
         {
             _food += PointsPerSoda;
+            FoodText.text = "+" + PointsPerSoda + " Food: " + _food;
             other.gameObject.SetActive(false);
         }
     }
