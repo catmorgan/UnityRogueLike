@@ -23,7 +23,7 @@ public class Player : MovingObject
 	protected override void Start ()
 	{
 	    animator = GetComponent<Animator>();
-	    PointsPerFood = GameManager.Instance.PlayerFoodPoints;
+        _food = GameManager.Instance.PlayerFoodPoints;
         base.Start();
 	}
 
@@ -46,7 +46,7 @@ public class Player : MovingObject
         animator.SetTrigger("playerChop");
     }
 
-    void Update()
+    private void Update()
     {
         if (!GameManager.Instance.IsPlayersTurn) return;
 
@@ -88,7 +88,7 @@ public class Player : MovingObject
 
     private void Restart()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
     private void OnDisable()
